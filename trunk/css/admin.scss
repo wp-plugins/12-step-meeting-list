@@ -1,0 +1,59 @@
+.settings_page_meetings {
+	h2.nav-tab-wrapper:before {
+	    content: '\f307';
+	    display: inline-block;
+	    -webkit-font-smoothing: antialiased;
+	    font: normal 29px/1 'dashicons';
+	    vertical-align: middle;
+	    margin-right: 0.3em;
+	}
+}
+
+.wp-admin .meta_form_row { 
+	margin: 10px 0; overflow: auto; 
+	label, input, div.checkboxes, #map { float: left; line-height: 100%; } 
+	label { width: 13%; margin-right: 2%; text-align: right; font-size: 15px; line-height: 40px; white-space: nowrap; }
+	input[type=text], input[type=time], select, textarea, div.checkboxes, #map { 
+		width: 85%; margin: 0; font-size: 18px; padding: 6px; height: 40px; line-height: normal; 
+	}
+	input, select { 
+		border: 1px solid #ccc; 
+	    border-radius: 0;
+	    -webkit-border-radius: 0;
+	}
+	input[type=radio], input[type=checkbox] { 
+		float: left;
+		&:focus { box-shadow: none; }
+	}
+
+	&.typeahead {
+		overflow: visible;
+		.twitter-typeahead{
+		     width: 85%;
+		     input { width: 100%; }
+		}
+		.tt-hint { color: #ccc; }
+		.tt-dropdown-menu { display: none !important; }
+
+	}
+
+	textarea { height: 100px; }
+	&:last-child { margin-bottom: 0; }
+	div.checkboxes { 
+		overflow: auto; padding: 8px 0 0 0; height: auto;
+		input { margin: 0 8px 0 0; }
+		label { margin: 5px 0; line-height: 16px; width: 50%; float: left; text-align: left; font-size: 13px; }
+	}
+	&.city {
+		input { width: 60%; margin-right: 1%; }
+		select { width: 24%; }
+	}
+
+	::-webkit-input-placeholder	{ color: #ccc }
+	:-moz-placeholder			{ color: #ccc; }
+	::-moz-placeholder			{ color: #ccc; }
+	:-ms-input-placeholder		{ color: #ccc; }
+
+
+	#map { background-color: #f6f6f6; height: 300px; padding: 0; }
+}
