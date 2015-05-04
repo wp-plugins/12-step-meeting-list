@@ -71,7 +71,7 @@ add_action('admin_init', function(){
 	}, 'meetings', 'normal', 'low');
 
 	add_meta_box('location', 'Location', function(){
-		global $post, $tsml_regions;
+		global $post;
 		$parent = get_post($post->post_parent);
 		$tsml_custom = get_post_meta($post->post_parent);
 		?>
@@ -91,11 +91,14 @@ add_action('admin_init', function(){
 		</div>
 		<div class="meta_form_row">
 			<label for="region">Region</label>
-			<select name="region" id="region">
-				<?php foreach ($tsml_regions as $key=>$region) {?>
-					<option value="<?php echo $key?>" <?php selected($tsml_custom['region'][0], $key)?>><?php echo $region?></option>
-				<?php }?>
-			</select>
+			<?php wp_dropdown_categories(array(
+				'name' => 'region',
+				'taxonomy' => 'region',
+				'hierarchical' => true,
+				'hide_empty' => false,
+				'orderby' => 'name',
+				'selected' => $tsml_custom['region'][0],
+			)); ?>
 		</div>
 		<div class="meta_form_row">
 			<label for="map">Map</label>
