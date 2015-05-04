@@ -88,7 +88,7 @@ function tsml_format_time($string) {
 
 //function:	appends men or women if type present
 //used:		archive-meetings.php
-function tsml_format_name($name, $tsml_types) {
+function tsml_format_name($name, $tsml_types=array()) {
 	if (in_array('M', $tsml_types)) {
 		$name .= ' <small>Men</small>';
 	} elseif (in_array('W', $tsml_types)) {
