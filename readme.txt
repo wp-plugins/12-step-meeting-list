@@ -2,8 +2,8 @@
 Contributors: aasanjose
 Tags: meetings, aa, na, 12-step, locations
 Requires at least: 3.2
-Tested up to: 4.2
-Stable tag: 1.1.2
+Tested up to: 4.2.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,10 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.1.3 =
+* Searches are now linkable (in modern browsers)
+* Going back to meetings preserves your search
+
 = 1.1.2 =
 * Moving map controls under map button
 
@@ -82,7 +86,10 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Upgrade Notice ==
 
-= 1.1.1 =
+= 1.1.3 =
+On modern browsers, search maintains state in URL
+
+= 1.1.2 =
 Better map controls.
 
 = 1.1.1 =
