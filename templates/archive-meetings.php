@@ -10,7 +10,7 @@ $search		= sanitize_text_field($_GET['s']);
 $region     = intval($_GET['r']);
 $types		= array_values(array_intersect(array_keys($tsml_types), explode('-', $_GET['t'])));
 if (!isset($_GET['d'])) {
-	$day = current_time('w'); //if not specified, day is current day
+	$day = intval(current_time('w')); //if not specified, day is current day
 } elseif ($_GET['d'] == 'any') {
 	$day = false;
 } else {
@@ -63,10 +63,10 @@ class Walker_Regions_Dropdown extends Walker_Category {
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<li><a href="#"><?php echo $day_default?></a></li>
+					<li<?php if ($day === false) echo ' class="active"'?>><a href="#"><?php echo $day_default?></a></li>
 					<li class="divider"></li>
 					<?php foreach ($tsml_days as $key=>$value) {?>
-					<li<?php if ($key === $day) echo ' class="active"'?>><a href="#" data-id="<?php echo $key?>"><?php echo $value?></a></li>
+					<li<?php if (intval($key) === $day) echo ' class="active"'?>><a href="#" data-id="<?php echo $key?>"><?php echo $value?></a></li>
 					<?php }?>
 				</ul>
 			</div>

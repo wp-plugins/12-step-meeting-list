@@ -52,6 +52,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.1.4 =
+* Minor bug fixes in day dropdown
+
 = 1.1.3 =
 * Searches are now linkable (in modern browsers)
 * Going back to meetings preserves your search
@@ -85,6 +88,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 * Preparing for submission to the WordPress plugins directory
 
 == Upgrade Notice ==
+
+= 1.1.4 =
+Minor bug fixes in day dropdown
 
 = 1.1.3 =
 On modern browsers, search maintains state in URL
