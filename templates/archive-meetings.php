@@ -88,6 +88,7 @@ class Walker_Regions_Dropdown extends Walker_Category {
 						'hide_empty' => false,
 						'walker' => new Walker_Regions_Dropdown,
 						'value' => $region,
+						'show_option_none' => '',
 					)); ?>
 				</ul>
 			</div>
