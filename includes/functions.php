@@ -151,7 +151,7 @@ function tsml_get_meetings($arguments=array()) {
 	//sanitize input
 	$arguments['location_id'] = (isset($arguments['location_id'])) ? intval($arguments['location_id']) : null;
 
-	if (isset($arguments['day'])) {
+	if (isset($arguments['day']) && ($arguments['day'] !== false)) {
 		$meta_query[] = array(
 			'key'	=> 'day',
 			'value'	=> intval($arguments['day']),
@@ -179,7 +179,7 @@ function tsml_get_meetings($arguments=array()) {
 
 	if (!empty($arguments['types'])) {
 		foreach ($arguments['types'] as $type) {
-			$meta_query[] = array(
+			if (!empty($type)) $meta_query[] = array(
 				'key'	=> 'types',
 				'value'	=> '"' . sanitize_text_field($type) . '"',
 				'compare'=>'LIKE',
