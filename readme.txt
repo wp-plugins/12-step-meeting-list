@@ -3,7 +3,7 @@ Contributors: aasanjose
 Tags: meetings, aa, na, 12-step, locations
 Requires at least: 3.2
 Tested up to: 4.2.2
-Stable tag: 1.1.4
+Stable tag: 1.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.1.5 =
+* Fixing bug with header
+
 = 1.1.4 =
 * Minor bug fixes in day dropdown
 
@@ -88,6 +91,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 * Preparing for submission to the WordPress plugins directory
 
 == Upgrade Notice ==
+
+= 1.1.5 =
+Hopefully fixing header
 
 = 1.1.4 =
 Minor bug fixes in day dropdown
