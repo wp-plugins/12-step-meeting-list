@@ -6,7 +6,7 @@ tsml_assets('public');
 get_header();
 
 //parse query string
-$search		= sanitize_text_field($_GET['s']);
+$search		= sanitize_text_field($_GET['sq']);
 $region     = intval($_GET['r']);
 $types		= array_values(array_intersect(array_keys($tsml_types), explode('-', $_GET['t'])));
 if (!isset($_GET['d'])) {

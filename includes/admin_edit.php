@@ -30,6 +30,7 @@ add_action('admin_init', function(){
 	tsml_assets('admin');
 	
 	remove_meta_box('regiondiv', 'meetings', 'side');
+	remove_meta_box('wii_post-box1', 'meetings', 'normal'); //removes weaver ii from east bay site
 
 	add_meta_box('info', 'General Info', function(){
 		global $post, $tsml_days, $tsml_types, $tsml_custom, $tsml_nonce;

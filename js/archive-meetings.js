@@ -29,7 +29,7 @@ jQuery(function(){
 		if (history.pushState) {
 			var url = window.location.protocol + '//' + window.location.host + window.location.pathname;
 			var querystring = {};
-			if (data.search) querystring.s = data.search;
+			if (data.search) querystring.sq = data.search;
 			if (data.day) {
 				querystring.d = data.day;
 			} else {
