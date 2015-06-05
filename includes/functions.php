@@ -483,6 +483,7 @@ function tsml_import($meetings, $delete='nothing') {
 
 	//split data into rows
 	$meetings = explode(PHP_EOL, $meetings);
+	if (count($meetings) < 2) return tsml_admin_notice('Nothing was imported because no data rows were found.', 'error');
 	
 	//get header
 	$header = explode("\t", array_shift($meetings));
@@ -590,6 +591,11 @@ function tsml_import($meetings, $delete='nothing') {
 		
 		//interpret result
 		$data = json_decode($result);
+		
+		if (empty($data->results[0]->address_components)) {
+			return tsml_admin_notice('Google did not respond for address "' . $address . '". Response was <pre>' . var_export($data, true) . '</pre>', 'error');
+		}
+		
 		$formatted_address = $data->results[0]->formatted_address;
 		$address = $city = $state = $postal_code = $country = false;
 		foreach ($data->results[0]->address_components as $component) {
@@ -643,6 +649,8 @@ function tsml_import($meetings, $delete='nothing') {
 		foreach ($all_meetings as $meeting) wp_delete_post($meeting->ID, true);
 		$all_locations = get_posts('post_type=locations&numberposts=-1');
 		foreach ($all_locations as $location) wp_delete_post($location->ID, true);
+		$all_regions = get_terms('region', array( 'fields' => 'ids', 'hide_empty' => false ) );
+		foreach ($all_regions as $region) wp_delete_term($region, 'region');
 	}
 	
 	//loop through and save everything to the database

@@ -3,7 +3,7 @@ Contributors: aasanjose
 Tags: meetings, aa, na, 12-step, locations
 Requires at least: 3.2
 Tested up to: 4.2.2
-Stable tag: 1.2
+Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.2.1 =
+* Import error handling, also now deletes regions
+
 = 1.2 =
 * New import feature
 
@@ -97,6 +100,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 * Preparing for submission to the WordPress plugins directory
 
 == Upgrade Notice ==
+
+= 1.2.1 =
+Import error handling, also now deletes regions
 
 = 1.2 =
 New import feature

@@ -55,7 +55,7 @@ add_action('admin_menu', function() {
 									<div style="margin-top:10px;"><label><input type="radio" name="tsml_delete" value="nothing" disabled> Don't overwrite anything that's in the system already</label></div>
 									<div><label><input type="radio" name="tsml_delete" value="individual" disabled> Replace meetings at the same time and place with new data</label></div>
 									-->
-									<div style="margin-top:10px;"><label><input type="radio" name="tsml_delete" value="everything" checked> Start fresh: delete all meetings and locations</label></div>
+									<div style="margin-top:10px;"><label><input type="radio" name="tsml_delete" value="everything" checked> Start fresh: delete all meetings, locations, and regions.</label></div>
 									<div style="margin-top:12px;"><input type="submit" class="button button-primary" value="Begin"></div>
 								</form>
 						    </div>
