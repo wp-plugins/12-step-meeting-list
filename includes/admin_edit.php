@@ -53,7 +53,7 @@ add_action('admin_init', function(){
 		</div>
 		<div class="meta_form_row">
 			<label for="time">Time</label>
-			<input type="time" name="time" id="time" value="<?php echo $tsml_custom['time'][0]?>" step="900">
+			<input type="time" name="time" id="time" value="<?php echo $tsml_custom['time'][0]?>">
 		</div>
 		<div class="meta_form_row">
 			<label for="tags">Types</label>

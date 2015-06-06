@@ -495,7 +495,17 @@ function tsml_import($meetings, $delete='nothing') {
 	if (!in_array('time', $header)) return tsml_admin_notice('Time column is required.', 'error');
 	if (!in_array('day', $header)) return tsml_admin_notice('Day column is required.', 'error');
 	if (!in_array('address', $header)) return tsml_admin_notice('Address column is required.', 'error');
-	
+
+	//all the data is set, now delete everything
+	if ($delete == 'everything') {
+		$all_meetings = get_posts('post_type=meetings&numberposts=-1');
+		foreach ($all_meetings as $meeting) wp_delete_post($meeting->ID, true);
+		$all_locations = get_posts('post_type=locations&numberposts=-1');
+		foreach ($all_locations as $location) wp_delete_post($location->ID, true);
+		$all_regions = get_terms('region', array( 'fields' => 'ids', 'hide_empty' => false ) );
+		foreach ($all_regions as $region) wp_delete_term($region, 'region');
+	}
+		
 	//loop through data and group by address
 	foreach ($meetings as $meeting) {
 		$row_counter++;
@@ -515,6 +525,7 @@ function tsml_import($meetings, $delete='nothing') {
 		//sanitize time
 		$meeting['time'] = date_parse($meeting['time']);
 		$meeting['time'] = sprintf('%02d', $meeting['time']['hour']) . ':' . sprintf('%02d', $meeting['time']['minute']);
+		if ($meeting['time'] == '00:00') $meeting['time'] = '23:59';
 		
 		//use address if location is missing
 		if (empty($meeting['location'])) $meeting['location'] = $meeting['address'];
@@ -536,8 +547,8 @@ function tsml_import($meetings, $delete='nothing') {
 			if ($term = term_exists($meeting['region'], 'region')) {
 				$meeting['region'] = $term['term_id'];
 			} else {
-				list($term_id, $taxonomy_id) = wp_insert_term($meeting['region'], 'region');
-				$meeting['region'] = $term_id;
+				$term = wp_insert_term($meeting['region'], 'region');
+				$meeting['region'] = $term['term_id'];
 			}
 		}
 
@@ -574,6 +585,7 @@ function tsml_import($meetings, $delete='nothing') {
 		);
 	}
 	
+	//dd($addresses);
 	//die('exiting before geocoding ' . count($addresses) . ' addresses.');
 		
 	//loop through again and geocode the addresses, making a location
@@ -591,6 +603,14 @@ function tsml_import($meetings, $delete='nothing') {
 		
 		//interpret result
 		$data = json_decode($result);
+		
+		if ($data->status == 'OVER_QUERY_LIMIT') {
+			sleep(2);
+			$data = json_decode(curl_exec($ch));
+			if ($data->status == 'OVER_QUERY_LIMIT') {
+				return tsml_admin_notice('You are over your rate limit for the Google Geocoding API, you will need an API Key to continue.', 'error');
+			}
+		}
 		
 		if (empty($data->results[0]->address_components)) {
 			return tsml_admin_notice('Google did not respond for address "' . $address . '". Response was <pre>' . var_export($data, true) . '</pre>', 'error');
@@ -641,16 +661,6 @@ function tsml_import($meetings, $delete='nothing') {
 			$locations[$formatted_address]['meetings'],
 			$info['meetings']
 		);
-	}
-	
-	//all the data is set, now delete everything
-	if ($delete == 'everything') {
-		$all_meetings = get_posts('post_type=meetings&numberposts=-1');
-		foreach ($all_meetings as $meeting) wp_delete_post($meeting->ID, true);
-		$all_locations = get_posts('post_type=locations&numberposts=-1');
-		foreach ($all_locations as $location) wp_delete_post($location->ID, true);
-		$all_regions = get_terms('region', array( 'fields' => 'ids', 'hide_empty' => false ) );
-		foreach ($all_regions as $region) wp_delete_term($region, 'region');
 	}
 	
 	//loop through and save everything to the database

@@ -52,6 +52,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.2.2 =
+* Importer improvements
+
 = 1.2.1 =
 * Import error handling, also now deletes regions
 
@@ -100,6 +103,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 * Preparing for submission to the WordPress plugins directory
 
 == Upgrade Notice ==
+
+= 1.2.2 =
+Importer improvements
 
 = 1.2.1 =
 Import error handling, also now deletes regions

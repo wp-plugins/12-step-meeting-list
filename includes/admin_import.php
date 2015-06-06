@@ -49,7 +49,7 @@ add_action('admin_menu', function() {
 							<div class="inside">
 								<form method="post" action="edit.php?post_type=meetings&page=import">
 									<?php wp_nonce_field($tsml_nonce, 'tsml_nonce', false)?>
-									<p>This will take a while, please be patient. Importing 500 meetings takes about one minute.</p>
+									<p>It takes a while for the address verification to do its thing, please be patient. Importing 500 meetings usually takes about one minute.</p>
 									<textarea name="tsml_import" class="widefat" rows="5" placeholder="Paste spreadsheet data here"></textarea>
 									<!--
 									<div style="margin-top:10px;"><label><input type="radio" name="tsml_delete" value="nothing" disabled> Don't overwrite anything that's in the system already</label></div>

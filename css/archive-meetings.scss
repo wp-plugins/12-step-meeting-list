@@ -188,7 +188,8 @@ input:focus, button:focus {
 
 #meeting, #location {
 	margin-bottom: $margin * 2;
-	h1 { font-size: 36px; }
+	.page-header { background-color: transparent; } //2013
+	h1 { font-size: 36px; margin-bottom: 4px; }
 	dl, dd, dt { margin: 0; }
 	ul { padding: 0; margin: 0 0 $margin; list-style: none; }
 }
