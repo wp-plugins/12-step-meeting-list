@@ -8,7 +8,7 @@ get_header();
 //parse query string
 $search		= sanitize_text_field($_GET['sq']);
 $region     = intval($_GET['r']);
-$types		= array_values(array_intersect(array_keys($tsml_types), explode('-', $_GET['t'])));
+$types		= array_values(array_intersect(array_keys($tsml_types[$tsml_program]), explode('-', $_GET['t'])));
 if (!isset($_GET['d'])) {
 	$day = intval(current_time('w')); //if not specified, day is current day
 } elseif ($_GET['d'] == 'any') {
@@ -25,7 +25,7 @@ $region_label = $region ? $tsml_regions[$region] : $region_default;
 $types_default = 'Meeting Type';
 $types_count = count($types);
 $types_label = $types_count ? $types_default . ' [' . $types_count . ']': $types_default;
-if ($types_count == 1) $types_label = $tsml_types[$types[0]];
+if ($types_count == 1) $types_label = $tsml_types[$tsml_program][$types[0]];
 
 //need this later
 $locations	= array();
@@ -94,17 +94,21 @@ class Walker_Regions_Dropdown extends Walker_Category {
 			</div>
 		</div>
 		<div class="col-md-2 col-sm-6">
+			<?php if (count($tsml_types_in_use)) {?>
 			<div class="dropdown" id="types">
 				<a data-toggle="dropdown" class="btn btn-default btn-block">
 					<span class="selected"><?php echo $types_label?></span>
 					<span class="caret"></span>
 				</a>
 				<ul class="dropdown-menu">
-					<?php foreach ($tsml_types as $key=>$type) {?>
+					<?php 
+					$types_to_list = array_intersect_key($tsml_types[$tsml_program], array_flip($tsml_types_in_use));
+					foreach ($types_to_list as $key=>$type) {?>
 					<li<?php if (in_array($key, $types)) echo ' class="active"'?>><a href="#" data-id="<?php echo $key?>"><?php echo $type?></a></li>
 					<?php } ?>
 				</ul>
 			</div>
+			<?php }?>
 		</div>
 		<div class="col-md-2 col-md-push-2 col-sm-12 visible-md visible-lg visible-xl">
 			<div class="btn-group btn-group-justified" id="action">

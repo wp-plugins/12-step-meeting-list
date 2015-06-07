@@ -105,11 +105,11 @@ function tsml_delete_orphaned_locations() {
 
 //function:	appends men or women if type present
 //used:		archive-meetings.php
-function tsml_format_name($name, $tsml_types=array()) {
+function tsml_format_name($name, $types=array()) {
 	$name = str_replace('"', '', $name);
-	if (in_array('M', $tsml_types)) {
+	if (in_array('M', $types)) {
 		$name .= ' <small>Men</small>';
-	} elseif (in_array('W', $tsml_types)) {
+	} elseif (in_array('W', $types)) {
 		$name .= ' <small>Women</small>';
 	}
 	return $name;
@@ -359,7 +359,7 @@ add_action('wp_ajax_nopriv_csv', 'tsml_meetings_csv');
 function tsml_meetings_csv() {
 
 	//going to need this later
-	global $tsml_days, $tsml_types;
+	global $tsml_days, $tsml_types, $tsml_program;
 
 	//get data source
 	$meetings = tsml_get_meetings();
@@ -382,12 +382,11 @@ function tsml_meetings_csv() {
 	);
 
 	//helper vars
-	$delimiter = ",";
-	$line_ending = "\r\n";
+	$delimiter = ',';
 	$escape = '"';
 	
 	//do header
-	$return = implode($delimiter, array_values($columns)) . $line_ending;
+	$return = implode($delimiter, array_values($columns)) . PHP_EOL;
 
 	//append meetings
 	foreach ($meetings as $meeting) {
@@ -397,7 +396,7 @@ function tsml_meetings_csv() {
 				$line[] = $tsml_days[$meeting[$column]];
 			} elseif ($column == 'types') {
 				$types = $meeting[$column];
-				foreach ($types as &$type) $type = $tsml_types[$type];
+				foreach ($types as &$type) $type = $tsml_types[$tsml_program][$type];
 				sort($types);
 				$line[] = $escape . implode(', ', $types) . $escape;
 			} elseif ($column == 'notes') {
@@ -406,7 +405,7 @@ function tsml_meetings_csv() {
 				$line[] = $escape . str_replace($escape, '', $meeting[$column]) . $escape;
 			}
 		}
-		$return .= implode($delimiter, $line) . $line_ending;
+		$return .= implode($delimiter, $line) . PHP_EOL;
 	}
 
 	//headers to trigger file download
@@ -417,9 +416,8 @@ function tsml_meetings_csv() {
 	header('Content-Length: ' . strlen($return));
 	header('Content-Disposition: attachment; filename="meetings.csv"');
 
-	//echo '<pre>';
 	//output
-	die($return);
+	wp_die($return);
 };
 
 //todo: consider whether we really need this
@@ -439,10 +437,10 @@ function tsml_regions_api() {
 //sanitize and import meeting data
 //used by admin_import.php
 function tsml_import($meetings, $delete='nothing') {
-	global $tsml_types, $tsml_days;
+	global $tsml_types, $tsml_program, $tsml_days;
 	
 	//uppercasing for value matching later
-	$tsml_types = array_map('strtoupper', $tsml_types);
+	$upper_types = array_map('strtoupper', $tsml_types[$tsml_program]);
 		
 	//type translations for other groups
 	$type_translations = array(
@@ -498,9 +496,9 @@ function tsml_import($meetings, $delete='nothing') {
 
 	//all the data is set, now delete everything
 	if ($delete == 'everything') {
-		$all_meetings = get_posts('post_type=meetings&numberposts=-1');
+		$all_meetings = get_posts('post_type=meetings&post_status=any&numberposts=-1');
 		foreach ($all_meetings as $meeting) wp_delete_post($meeting->ID, true);
-		$all_locations = get_posts('post_type=locations&numberposts=-1');
+		$all_locations = get_posts('post_type=locations&post_status=any&numberposts=-1');
 		foreach ($all_locations as $location) wp_delete_post($location->ID, true);
 		$all_regions = get_terms('region', array( 'fields' => 'ids', 'hide_empty' => false ) );
 		foreach ($all_regions as $region) wp_delete_term($region, 'region');
@@ -557,10 +555,10 @@ function tsml_import($meetings, $delete='nothing') {
 		$meeting['types'] = array();
 		foreach ($types as $type) {
 			$type = trim($type);
-			if (in_array($type, array_keys($tsml_types))) {
+			if (in_array($type, array_keys($upper_types))) {
 				$meeting['types'][] = $type;
-			} elseif (in_array($type, array_values($tsml_types))) {
-				$meeting['types'][] = array_search($type, $tsml_types);
+			} elseif (in_array($type, array_values($upper_types))) {
+				$meeting['types'][] = array_search($type, $upper_types);
 			} elseif (in_array($type, array_keys($type_translations))) {
 				$meeting['types'][] = $type_translations[$type];
 			}
@@ -586,7 +584,7 @@ function tsml_import($meetings, $delete='nothing') {
 	}
 	
 	//dd($addresses);
-	//die('exiting before geocoding ' . count($addresses) . ' addresses.');
+	//wp_die('exiting before geocoding ' . count($addresses) . ' addresses.');
 		
 	//loop through again and geocode the addresses, making a location
 	$ch = curl_init();
@@ -699,12 +697,46 @@ function tsml_import($meetings, $delete='nothing') {
 		}
 	}
 	
+	//update types in use
+	tsml_update_types_in_use();
+	
 	//success
 	return tsml_admin_notice('Successfully added ' . $success . ' meetings.');
 }
 
+//set an option with the currently-used types
+//used by tsml_import() and save.php
+function tsml_update_types_in_use() {
+	global $tsml_types_in_use, $wpdb;
+	
+	//shortcut to getting all meta values without getting all posts first
+	$types = $wpdb->get_col('SELECT
+			m.meta_value 
+		FROM ' . $wpdb->postmeta . ' m
+		JOIN ' . $wpdb->posts . ' p ON m.post_id = p.id
+		WHERE p.post_type = "meetings" AND m.meta_key = "types" AND p.post_status = "publish"');
+		
+	//master array
+	$all_types = array();
+	
+	//loop through results and append to master array
+	foreach ($types as $type) {
+		$all_types = array_merge($all_types, unserialize($type));
+	}
+	
+	//update global variable
+	$tsml_types_in_use = array_unique($all_types);
+	
+	//set option value
+	if (get_option('tsml_types_in_use') === false) {
+		add_option('tsml_types_in_use', $tsml_types_in_use);
+	} else {
+		update_option('tsml_types_in_use', $tsml_types_in_use);
+	}
+}
+
 //admin screen update message
-//used by tsml_import
+//used by tsml_import() and admin_types.php
 function tsml_admin_notice($message, $type='updated') {
 	add_action('admin_notices', function() use ($message, $type) {
 		echo '<div class="' . $type . '"><p>' . $message . '</p></div>';
