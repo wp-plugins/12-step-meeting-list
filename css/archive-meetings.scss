@@ -83,8 +83,11 @@ input:focus, button:focus {
 	.controls {
 		min-height: 34px;
 		margin-bottom: 5px;
-		form, .dropdown {
+		form, .dropdown, input {
 			margin-bottom: $margin;
+		}
+		input[name=query] {
+			padding: 6px 12px;
 		}
 		ul { 
 			min-width: 100%; 
