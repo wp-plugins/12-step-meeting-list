@@ -31,22 +31,26 @@ $tsml_custom['types'][0] = empty($tsml_custom['types'][0]) ? array() : unseriali
 						<dt>Location</dt>
 						<dd><?php echo tsml_link(get_permalink($tsml_parent->ID), $tsml_parent->post_title)?></dd>
 						<dd><?php echo $tsml_custom['address'][0]?><br><?php echo $tsml_custom['city'][0]?>, <?php echo $tsml_custom['state'][0]?></dd>
+						<?php if (!empty($tsml_regions[$tsml_custom['region'][0]])) {?>
 						<br>
 						<dt>Region</dt>
 						<dd><?php echo $tsml_regions[$tsml_custom['region'][0]]?></dd>
-						<br>
-						<?php 
+						<?php }
 						if (count($tsml_custom['types'][0])) {
 							foreach ($tsml_custom['types'][0] as &$type) $type = $tsml_types[$tsml_program][trim($type)];
 							?>
+							<br>
 							<dt>Type</dt>
 							<dd><?php echo implode(', ', $tsml_custom['types'][0])?></dd>
-						<?php }?>
-						<?php if (!empty($post->post_content)) {?>
+						<?php }
+						if (!empty($post->post_content)) {?>
 						<br>
 						<dt>Notes</dt>
 						<dd><?php echo nl2br(esc_html($post->post_content))?></dd>
 						<?php } ?>
+						<br>
+						<dt>Updated</dt>
+						<dd><?php the_modified_date()?></dd>
 					</dl>
 				</div>
 				<div class="col-md-8">

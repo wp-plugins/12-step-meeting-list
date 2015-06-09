@@ -130,16 +130,13 @@ function tsml_format_name($name, $types=array()) {
 }
 
 //function: takes 18:30 and returns 6:30 p.m.
-//used:		tsml_get_meetings(), simple-meetings.php, admin_lists.php
+//used:		tsml_get_meetings(), single-meetings.php, admin_lists.php
 function tsml_format_time($string) {
 	if (!strstr($string, ':')) return 'n/a';
 	if ($string == '12:00') return 'Noon';
 	if ($string == '23:59') return 'Midnight';
-	list($hours, $minutes) = explode(':', $string);
-	$hours -= 0;
-	$ampm = ($hours > 11) ? 'p.m.' : 'a.m.';
-	$hours = ($hours > 12) ? $hours - 12 : $hours;
-	return $hours . ':' . $minutes . ' ' . $ampm;
+	$date = strtotime($string);
+	return date(get_option('time_format'), $date);
 }
 
 
@@ -567,7 +564,7 @@ function tsml_import($meetings, $delete='nothing') {
 
 		//sanitize types
 		$types = explode(',', $meeting['types']);
-		$meeting['types'] = array();
+		$meeting['types'] = $unused_types = array();
 		foreach ($types as $type) {
 			$type = trim($type);
 			if (in_array($type, array_keys($upper_types))) {
@@ -576,8 +573,14 @@ function tsml_import($meetings, $delete='nothing') {
 				$meeting['types'][] = array_search($type, $upper_types);
 			} elseif (in_array($type, array_keys($type_translations))) {
 				$meeting['types'][] = $type_translations[$type];
+			} else {
+				$unused_types[] = $type;
 			}
 		}
+		
+		//append unused types to notes
+		if (!empty($meeting['notes'])) $meeting['notes'] .= PHP_EOL . PHP_EOL;
+		$meeting['notes'] .= implode(', ', $unused_types);
 				
 		//group by address
 		if (!array_key_exists($meeting['address'], $addresses)) {

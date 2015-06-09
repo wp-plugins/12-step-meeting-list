@@ -43,7 +43,9 @@ $tsml_parent	= get_post($post->post_parent);
 							echo '<dt>' . $tsml_days[$day] . '</dt><dd><ul>' . implode($meetings) . '</ul></dd>';
 						}
 						?>
-
+						<br>
+						<dt>Updated</dt>
+						<dd><?php the_modified_date()?></dd>
 					</dl>
 				</div>
 				<div class="col-md-8">
