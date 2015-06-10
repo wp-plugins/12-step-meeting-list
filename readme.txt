@@ -3,7 +3,7 @@ Contributors: aasanjose
 Tags: meetings, aa, na, 12-step, locations
 Requires at least: 3.2
 Tested up to: 4.2.2
-Stable tag: 1.2.6
+Stable tag: 1.2.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.2.7 =
+* Minor tweaks
+
 = 1.2.6 =
 * Improvements to importer, time formatting and adding last updated date
 
@@ -77,6 +80,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 * Empty region dropdown nicer
 
 == Upgrade Notice ==
+
+= 1.2.7 =
+Minor tweaks
 
 = 1.2.6 =
 Improvements to importer, time formatting and adding last updated date

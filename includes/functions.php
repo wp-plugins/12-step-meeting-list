@@ -455,6 +455,7 @@ function tsml_import($meetings, $delete='nothing') {
 	$type_translations = array(
 		'BB' => 'B',
 		'BC' => 'H', 
+		'BG' => 'BE', 
 		'CL' => 'C',
 		'GL' => 'G',
 		'GM' => 'G',
