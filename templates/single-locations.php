@@ -2,20 +2,19 @@
 
 tsml_assets('public');
 
-get_header(); ?>
+get_header(); 
 
-<div class="container">
+$tsml_custom	= get_post_meta($post->ID);
+$tsml_parent	= get_post($post->post_parent);
+?>
+
+<div id="location" class="container">
 	<div class="row">
-		<div class="col-md-10 col-md-offset-1">
-		
-			<?php 
-			$tsml_custom = get_post_meta($post->ID);
-			$parent = get_post($post->post_parent);
-			?>
+		<div class="col-md-10 col-md-offset-1 main">
 		
 			<div class="page-header">
-				<h1><?php echo $post->post_title ?></h1>
-				<a href="<?php echo get_post_type_archive_link('meetings'); ?>"><i class="glyphicon glyphicon-chevron-right"></i> Back to Meetings</a>
+				<h1><?php echo $post->post_title?></h1>
+				<?php echo tsml_link(get_post_type_archive_link('meetings'), '<i class="glyphicon glyphicon-chevron-right"></i> Back to Meetings')?>
 			</div>
 
 			<div class="row location">
@@ -23,26 +22,30 @@ get_header(); ?>
 					<dl>
 						<dt>Location</dt>
 						<dd><?php echo $tsml_custom['address'][0]?><br><?php echo $tsml_custom['city'][0]?>, <?php echo $tsml_custom['state'][0]?></dd>
-
+						<br>
 						<dt>Region</dt>
 						<dd><?php echo $tsml_regions[$tsml_custom['region'][0]]?></dd>
 						<?php if (!empty($post->post_content)) {?>
-
+						<br>
 						<dt>Notes</dt>
 						<dd><?php echo nl2br(esc_html($post->post_content))?></dd>
-						<?php } 
+						<?php }?>
+						<br>
+						<?php
 						$meetings = tsml_get_meetings(array('location_id'=>$post->ID));
-						$tsml_days = array();
+						$location_days = array();
 						foreach ($meetings as $meeting) {
-							if (!isset($tsml_days[$meeting['day']])) $tsml_days[$meeting['day']] = array();
-							$tsml_days[$meeting['day']][] = '<li><span>' . $meeting['time_formatted'] . '</span> <a href="' . $meeting['url'] . '">'. tsml_format_name($meeting['name'], $meeting['types']) . '</a></li>';
+							if (!isset($location_days[$meeting['day']])) $location_days[$meeting['day']] = array();
+							$location_days[$meeting['day']][] = '<li><span>' . $meeting['time_formatted'] . '</span> ' . tsml_link($meeting['url'], tsml_format_name($meeting['name'], $meeting['types'])) . '</li>';
 						}
-						ksort($tsml_days);
-						foreach ($tsml_days as $day=>$meetings) {
-							echo '<dt>' . $aasj_days[$day] . '</dt><dd><ul>' . implode($meetings) . '</ul></dd>';
+						ksort($location_days);
+						foreach ($location_days as $day=>$meetings) {
+							echo '<dt>' . $tsml_days[$day] . '</dt><dd><ul>' . implode($meetings) . '</ul></dd>';
 						}
 						?>
-
+						<br>
+						<dt>Updated</dt>
+						<dd><?php the_modified_date()?></dd>
 					</dl>
 				</div>
 				<div class="col-md-8">
@@ -61,7 +64,7 @@ get_header(); ?>
 							});
 
 							var contentString = '<div class="infowindow">'+
-							  '<h3><?php esc_attr_e($parent->post_title)?></h3>'+
+							  '<h3><?php esc_attr_e($tsml_parent->post_title)?></h3>'+
 							  '<p><?php esc_attr_e($tsml_custom['address'][0])?><br><?php esc_attr_e($tsml_custom['city'][0])?>, <?php echo $tsml_custom['state'][0]?></p>'+
 							  '<p><a class="btn btn-default" href="http://maps.apple.com/?q=<?php echo urlencode($tsml_custom['formatted_address'][0])?>" target="_blank">Directions</a></p>' +
 							  '</div>';
