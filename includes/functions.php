@@ -120,7 +120,6 @@ function tsml_get_all_regions($status='any') {
 //function:	appends men or women if type present
 //used:		archive-meetings.php
 function tsml_format_name($name, $types=array()) {
-	$name = str_replace('"', '', $name);
 	if (in_array('M', $types)) {
 		$name .= ' <small>Men</small>';
 	} elseif (in_array('W', $types)) {
@@ -272,6 +271,7 @@ function tsml_get_meetings($arguments=array()) {
 			));
 			$post_ids = array_unique(array_merge($post_ids, $children));
 		}
+		if (empty($post_ids)) return [];
 	}
 
 	# Search meetings
@@ -285,6 +285,10 @@ function tsml_get_meetings($arguments=array()) {
 		'post__in'		=> $post_ids,
 		'post_parent'	=> $arguments['location_id'],
 	));
+
+	//dd($meta_query);
+	//die('count was ' . count($posts));
+	//dd($post_ids);
 
 	# Make an array of the meetings
 	foreach ($posts as $post) {
@@ -347,6 +351,7 @@ add_action('wp_ajax_nopriv_meetings', 'tsml_meetings_api');
 
 function tsml_meetings_api() {
 	header('Access-Control-Allow-Origin: *');
+	if (empty($_POST) && !empty($_GET)) return wp_send_json(tsml_get_meetings($_GET)); //debugging
 	wp_send_json(tsml_get_meetings($_POST)); //tsml_get_meetings sanitizes input
 };
 
@@ -725,9 +730,12 @@ function tsml_import($meetings, $delete='nothing') {
 
 //function: return an html link with query string appended
 //used:		archive-meetings.php, single-locations.php, single-meetings.php
-function tsml_link($url, $string) {
-	if (!empty($_SERVER['QUERY_STRING'])) {
-		$url .= (strstr($url, '?') ? '&' : '?') . $_SERVER['QUERY_STRING'];
+function tsml_link($url, $string, $exclude='') {
+	$appends = $_GET;
+	if (array_key_exists($exclude, $appends)) unset($appends[$exclude]);
+	if (!empty($appends)) {
+		$url .= strstr($url, '?') ? '&' : '?';
+		$url .= http_build_query($appends, '', '&amp;');
 	}
 	return '<a href="' . $url . '">' . $string . '</a>';
 }
@@ -779,4 +787,12 @@ function dd($array) {
 	echo '<pre>';
 	print_r($array);
 	exit;	
+}
+
+//helper for search terms
+function highlight($text, $words) {
+    preg_match_all('~\w+~', $words, $m);
+    if (!$m) return $text;
+    $re = '~\\b(' . implode('|', $m[0]) . ')\\b~i';
+    return preg_replace($re, '<mark>$0</mark>', $text);
 }
