@@ -230,6 +230,10 @@ function tsml_get_meetings($arguments=array()) {
 	# Make an array of all locations
 	foreach ($posts as $post) {
 		$tsml_custom = get_post_meta($post->ID);
+
+		//to be implemented later
+		if (empty($tsml_custom['timezone'][0])) $tsml_custom['timezone'][0] = get_option('timezone_string');
+		
 		$locations[$post->ID] = array(
 			'address'			=> $tsml_custom['address'][0],
 			'city'				=> $tsml_custom['city'][0],
@@ -240,6 +244,7 @@ function tsml_get_meetings($arguments=array()) {
 			'longitude'			=> $tsml_custom['longitude'][0],
 			'region_id'			=> $tsml_custom['region'][0],
 			'region'			=> $tsml_regions[$tsml_custom['region'][0]],
+			'timezone'			=> $tsml_custom['timezone'][0],
 			'location'			=> $post->post_title,
 			'location_url'		=> get_permalink($post->ID),
 			'location_slug'		=> $post->post_name,
