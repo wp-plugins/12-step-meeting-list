@@ -1,9 +1,9 @@
 === 12 Step Meeting List ===
 Contributors: aasanjose
-Tags: meetings, aa, na, 12-step, locations
+Tags: meetings, aa, al-anon, na, 12-step, locations
 Requires at least: 3.2
-Tested up to: 4.2
-Stable tag: 1.1.1
+Tested up to: 4.2.2
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,50 +52,65 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
-= 1.1.1 =
-* New columns in CSV, fixed javascript issue affecting meeting name display
+= 1.3.4 =
+* Adding timezone to API
+* Adding Open and Closed NA meeting types
 
-= 1.1.0 =
-* Regions are hierarchical now
+= 1.3.3 =
+* Overeaters Anonymous meeting types
+* Time limit checking for geocoder
+* Importer bug fixes
+* Broader template CSV
 
-= 1.0.5 =
-* Fixed CSS issue with fullscreen map
+= 1.3.2 =
+* Bug fixes
 
-= 1.0.4 =
-* Fixed issue with men/women tags in page header
-* CSS fixes
+= 1.3.1 =
+* Fixed wrong array syntax
 
-= 1.0.3 =
-* Updating Readme
+= 1.3 =
+* Linking bugfixes for default permalink style
+* New meeting type (Babysitting available)
+* Search bugfixes
 
-= 1.0.2 =
-* Adding 'Speaker' to types
+= 1.2.9 =
+* NA meeting types
 
-= 1.0.1 =
-* Updates requested by WordPress team
+= 1.2.8 =
+* Templates can be overridden
+* Locations are cleaned up when deleting meetings
 
-= 1.0 =
-* Preparing for submission to the WordPress plugins directory
+= 1.2.7 =
+* Minor tweaks
+
+= 1.2.6 =
+* Improvements to importer, time formatting and adding last updated date
 
 == Upgrade Notice ==
 
-= 1.1.1 =
-Added columns to CSV.
+= 1.3.4 =
+API improvement, NA meeting types
 
-= 1.1.0 =
-You can now have sub-regions.
+= 1.3.3 =
+Importer improvements
 
-= 1.0.5 =
-Fixes fullscreen CSS issue.
+= 1.3.2 =
+Bug fixes
 
-= 1.0.4 =
-Fixes potentially annoying / Men or / Women tag issue.
+= 1.3.1 =
+Fixed wrong array syntax
 
-= 1.0.3 =
-Not really a big update.
+= 1.3 =
+Linking bugfixes
 
-= 1.0.2 =
-Standardizing types; you want to have the latest types.
+= 1.2.9 =
+NA meeting types
 
-= 1.0.1 =
-First public version of the plugin.
+= 1.2.8 =
+Templates can be overridden
+
+= 1.2.7 =
+Minor tweaks
+
+= 1.2.6 =
+Improvements to importer, time formatting and adding last updated date
