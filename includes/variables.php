@@ -90,6 +90,7 @@ $tsml_types = array(
 		'TOP'	=> 'Topic',
 		'TRAD'	=> 'Tradition',
 		'VAR'	=> 'Format Varies',
+		'X'		=> 'Wheelchair Accessible',
 		'W'		=> 'Women',
 		'Y'		=> 'Young People',
 	),
