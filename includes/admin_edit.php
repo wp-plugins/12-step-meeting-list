@@ -47,13 +47,15 @@ add_action('admin_init', function(){
 			<label for="day">Day</label>
 			<select name="day" id="day">
 				<?php foreach ($tsml_days as $key=>$day) {?>
-				<option value="<?php echo $key?>"<?php selected($meeting_custom['day'][0], $key)?>><?php echo $day?></option>
+				<option value="<?php echo $key?>"<?php if (strcmp($meeting_custom['day'][0], $key) == 0) {?> selected<?php }?>><?php echo $day?></option>
 				<?php }?>
+				<option disabled>──────</option>
+				<option value=""<?php if (empty($meeting_custom['day'][0]) && $meeting_custom['day'][0] !== '0') {?> selected<?php }?>>Appointment</option>
 			</select>
 		</div>
 		<div class="meta_form_row">
 			<label for="time">Time</label>
-			<input type="time" name="time" id="time" value="<?php echo $meeting_custom['time'][0]?>">
+			<input type="time" name="time" id="time" value="<?php echo $meeting_custom['time'][0]?>"<?php if (empty($meeting_custom['day'][0])) {?> disabled<?php }?>>
 		</div>
 		<div class="meta_form_row">
 			<label for="tags">Types</label>
@@ -109,6 +111,7 @@ add_action('admin_init', function(){
 			<label>Map</label>
 			<div id="map"></div>
 		</div>
+		<?php if (count($meetings) > 1) {?>
 		<div class="meta_form_row">
 			<label>Meetings</label>
 			<ol>
@@ -119,9 +122,22 @@ add_action('admin_init', function(){
 				<?php }?>
 			</ol>
 		</div>
+		<?php }?>
 		<div class="meta_form_row">
 			<label>Notes</label>
 			<textarea name="location_notes" placeholder="eg. Around back, basement, ring buzzer"><?php echo $location->post_content?></textarea>
+		</div>
+		<div class="meta_form_row">
+			<label>Contacts</label>
+			<div class="container">
+				<?php for ($i = 1; $i < 4; $i++) {?>
+				<div class="row">
+					<div><input type="text" name="contact_<?php echo $i?>_name" placeholder="Name" value="<?php echo $location_custom['contact_' . $i . '_name'][0]?>"></div>
+					<div><input type="text" name="contact_<?php echo $i?>_email" placeholder="Email" value="<?php echo $location_custom['contact_' . $i . '_email'][0]?>"></div>
+					<div><input type="text" name="contact_<?php echo $i?>_phone" placeholder="Phone" value="<?php echo $location_custom['contact_' . $i . '_phone'][0]?>"></div>
+				</div>
+				<?php }?>
+			</div>
 		</div>
 		<?php
 	}, 'meetings', 'normal', 'low');
