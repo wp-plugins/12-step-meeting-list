@@ -3,7 +3,7 @@ Contributors: aasanjose
 Tags: meetings, aa, al-anon, na, 12-step, locations
 Requires at least: 3.2
 Tested up to: 4.2.2
-Stable tag: 1.3.8
+Stable tag: 1.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.3.9 =
+* Meetings by appointment
+
 = 1.3.8 =
 * Location contacts
 
@@ -88,10 +91,10 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 * New meeting type (Babysitting available)
 * Search bugfixes
 
-= 1.2.9 =
-* NA meeting types
-
 == Upgrade Notice ==
+
+= 1.3.9 =
+Meetings by appointment
 
 = 1.3.8 =
 Location contacts
@@ -119,6 +122,3 @@ Fixed wrong array syntax
 
 = 1.3 =
 Linking bugfixes
-
-= 1.2.9 =
-NA meeting types

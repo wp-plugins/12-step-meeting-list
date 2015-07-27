@@ -179,7 +179,13 @@ class Walker_Regions_Dropdown extends Walker_Category {
 							}
 							?>
 						<tr>
-							<td class="time"><?php echo $meeting['time_formatted']?></td>
+							<td class="time"><?php 
+								if ($_GET['d'] == 'any' && !empty($meeting['time'])) {
+									echo $tsml_days[$meeting['day']] . ', ' . $meeting['time_formatted'];
+								} else {
+									echo $meeting['time_formatted'];
+								}
+								?></td>
 							<td class="name"><?php echo tsml_link($meeting['url'], tsml_format_name($meeting['name'], $meeting['types']), 'post_type')?></td>
 							<td class="location"><?php echo $meeting['location']?></td>
 							<td class="address"><?php echo $meeting['address']?></td>

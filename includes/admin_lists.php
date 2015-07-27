@@ -32,7 +32,8 @@ add_action('delete_post', function($post_id) {
 add_action('manage_meetings_posts_custom_column', function($column_name, $post_ID){
 	global $tsml_days, $tsml_regions;
 	if ($column_name == 'day') {
-		echo @$tsml_days[get_post_meta($post_ID, 'day', true)];
+		$day = get_post_meta($post_ID, 'day', true);
+		echo (empty($day) && $day !== '0') ? 'Appointment' : $tsml_days[$day];
 	} elseif ($column_name == 'time') {
 		echo tsml_format_time(get_post_meta($post_ID, 'time', true));
 	} elseif ($column_name == 'region') {
