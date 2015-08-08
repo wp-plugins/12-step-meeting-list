@@ -32,6 +32,7 @@ $locations	= array();
 
 //run query
 $meetings	= tsml_get_meetings(compact('search', 'day', 'region', 'types'));
+//dd($meetings);
 
 class Walker_Regions_Dropdown extends Walker_Category {
 	function start_el(&$output, $item, $depth=0, $args=array()) {
@@ -181,7 +182,7 @@ class Walker_Regions_Dropdown extends Walker_Category {
 						<tr>
 							<td class="time"><?php 
 								if ($_GET['d'] == 'any' && !empty($meeting['time'])) {
-									echo $tsml_days[$meeting['day']] . ', ' . $meeting['time_formatted'];
+									echo tsml_format_day_and_time($meeting['day'], $meeting['time']);
 								} else {
 									echo $meeting['time_formatted'];
 								}

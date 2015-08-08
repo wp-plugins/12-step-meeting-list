@@ -117,6 +117,14 @@ function tsml_get_all_regions($status='any') {
 	return get_terms('region', array('fields'=>'ids', 'hide_empty'=>false));
 }
 
+//function: takes 0, 18:30 and returns Sunday, 6:30 pm (depending on your settings)
+//used:		admin_edit.php, archive-meetings.php, single-meetings.php
+function tsml_format_day_and_time($day, $time, $separator=', ') {
+	global $tsml_days;
+	if (empty($tsml_days[$day]) || empty($time)) return 'Appointment';
+	return $tsml_days[$day] . $separator . tsml_format_time($time);
+}
+
 //function:	appends men or women if type present
 //used:		archive-meetings.php
 function tsml_format_name($name, $types=array()) {
@@ -128,7 +136,7 @@ function tsml_format_name($name, $types=array()) {
 	return $name;
 }
 
-//function: takes 18:30 and returns 6:30 p.m.
+//function: takes 18:30 and returns 6:30 pm (depending on your settings)
 //used:		tsml_get_meetings(), single-meetings.php, admin_lists.php
 function tsml_format_time($string) {
 	if (empty($string)) return 'Appointment';
@@ -325,7 +333,7 @@ function tsml_get_meetings($arguments=array()) {
 	}
 
 	# Because you can't yet order by multiple meta_keys, manually sort the days
-	if (!isset($arguments['day'])) {
+	if (empty($arguments['day']) && $arguments['day'] !== '0') {
 		$tsml_days = array();
 		foreach ($meetings as $meeting) {
 			if (!isset($tsml_days[$meeting['day']])) $tsml_days[$meeting['day']] = array();
