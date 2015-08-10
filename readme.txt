@@ -86,12 +86,6 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 * Adding timezone to API
 * Adding Open and Closed NA meeting types
 
-= 1.3.3 =
-* Overeaters Anonymous meeting types
-* Time limit checking for geocoder
-* Importer bug fixes
-* Broader template CSV
-
 == Upgrade Notice ==
 
 = 1.4.3 =
