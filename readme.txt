@@ -3,7 +3,7 @@ Contributors: aasanjose
 Tags: meetings, aa, al-anon, na, 12-step, locations
 Requires at least: 3.2
 Tested up to: 4.3
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Changelog ==
 
+= 1.4.3 =
+* Fixing bug that was saving Sunday meetings as appointment meetings
+
 = 1.4.2 =
 * Tested in WordPress 4.3
 
@@ -91,6 +94,9 @@ Currently no, but if someone will volunteer to help with the translating, we wil
 
 == Upgrade Notice ==
 
+= 1.4.3 =
+Fixing bug that was saving Sunday meetings as appointment meetings
+
 = 1.4.2 =
 Tested in WordPress 4.3
 
@@ -117,6 +123,3 @@ NA meeting type
 
 = 1.3.4 =
 API improvement, NA meeting types
-
-= 1.3.3 =
-Importer improvements
